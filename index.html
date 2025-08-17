@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кругобайкальская железная дорога</title>
+    <style>
+        :root {
+            --primary-color: #333;
+            --secondary-color: #fff;
+            --accent-color: #007bff;
+            --background-blur: 5px;
+        }
+
+        /* --- ИСПРАВЛЕНИЕ --- */
+        /* Это правило заставляет браузер включать padding в общую ширину,
+           предотвращая выход хедера за пределы экрана. */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        /* --- КОНЕЦ ИСПРАВЛЕНИЯ --- */
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', sans-serif;
+            color: var(--primary-color);
+            background-color: var(--secondary-color);
+            scroll-behavior: smooth;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: url('https://images.unsplash.com/photo-1590212151088-e04b7d141e17?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            filter: blur(var(--background-blur));
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0; /* Добавлено для надежности */
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 2rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background-color: var(--accent-color);
+            transition: all 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-color);
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--secondary-color);
+            background: url('https://images.unsplash.com/photo-1623772244729-158a43a9f02a?q=80&w=1974&auto=format&fit=crop') no-repeat center center/cover;
+            position: relative;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: var(--accent-color);
+            color: var(--secondary-color);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            background-color: #0056b3;
+        }
+        
+        section {
+            padding: 6rem 0;
+            background-color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--accent-color);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .content-grid img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .content-grid img:hover {
+            transform: scale(1.03);
+        }
+
+        .text-content p {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .facts-section {
+            background: linear-gradient(rgba(0, 123, 255, 0.05), rgba(0, 123, 255, 0));
+        }
+
+        .facts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .fact-item {
+            background: var(--secondary-color);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .fact-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.12);
+        }
+
+        .fact-item .icon {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .fact-item h3 {
+            font-size: 1.8rem;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .map-container {
+            text-align: center;
+        }
+
+        .map-container img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        
+        .tours-section {
+            background: url('https://images.unsplash.com/photo-1613538103357-5d5d85c8e23f?q=80&w=1974&auto=format&fit=crop') no-repeat center center/cover;
+            color: var(--secondary-color);
+            position: relative;
+            padding: 8rem 0;
+        }
+        
+        .tours-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 50, 100, 0.7);
+            border-radius: 8px;
+        }
+        
+        .tours-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+        
+        .tours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .tour-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .tour-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .tour-card h3 {
+            color: #fff;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        footer {
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero p {
+                font-size: 1.2rem;
+            }
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            .content-grid.reverse .image-content {
+                order: 1;
+            }
+            .content-grid.reverse .text-content {
+                order: 2;
+            }
+            .tours-grid {
+                grid-template-columns: 1fr;
+            }
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+            header {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background"></div>
+
+    <header>
+        <div class="logo">КБЖД</div>
+        <nav>
+            <ul>
+                <li><a href="#history">История</a></li>
+                <li><a href="#facts">Факты</a></li>
+                <li><a href="#route">Маршрут</a></li>
+                <li><a href="#tours">Экскурсии</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Кругобайкальская железная дорога</h1>
+            <p>"Золотая пряжка" стального пояса России — уникальный памятник инженерного искусства и живописный маршрут вдоль берега Байкала.</p>
+            <a href="#tours" class="cta-button">Выбрать путешествие</a>
+        </div>
+    </section>
+
+    <main class="container">
+        <section id="history">
+            <h2>История Великого Пути</h2>
+            <div class="content-grid">
+                <div class="text-content">
+                    <p>Кругобайкальская железная дорога (КБЖД) — это не просто рельсы и шпалы, а живая история освоения Сибири. Она стала последним, самым сложным и дорогостоящим звеном в строительстве легендарной Транссибирской магистрали. Решение о её постройке было принято в конце XIX века, чтобы обеспечить бесперебойное сообщение через всю страну. До появления КБЖД поезда приходилось переправлять через Байкал на специальных паромах-ледоколах. </p>
+                    <p>Строительство велось с 1896 по 1905 год в невероятно сложных условиях скалистого рельефа. Рабочие вручную пробивали тоннели в скалах, возводили мосты над ущельями и укрепляли береговую линию. 13 октября 1905 года КБЖД была официально введена в эксплуатацию, и Транссиб наконец стал единой непрерывной магистралью. Этот участок за его сложность и стоимость прозвали "Золотой пряжкой стального пояса России".</p>
+                </div>
+                <img src="https://images.unsplash.com/photo-1594961735149-d3e5270c538a?q=80&w=1974&auto=format&fit=crop" alt="Исторический вид на тоннель КБЖД">
+            </div>
+        </section>
+
+        <section id="facts" class="facts-section">
+            <h2>КБЖД в цифрах и фактах</h2>
+            <div class="facts-grid">
+                <div class="fact-item">
+                    <div class="icon">🛤️</div>
+                    <h3>89 км</h3>
+                    <p>Протяженность современного туристического участка от станции Слюдянка-II до порта Байкал.</p>
+                </div>
+                <div class="fact-item">
+                    <div class="icon">🚇</div>
+                    <h3>38</h3>
+                    <p>Тоннелей общей длиной более 9 км пробито в скалах вдоль берега Байкала.</p>
+                </div>
+                <div class="fact-item">
+                    <div class="icon">🌉</div>
+                    <h3>248</h3>
+                    <p>Мостов и виадуков перекинуто через реки и ущелья на всем протяжении пути.</p>
+                </div>
+                <div class="fact-item">
+                    <div class="icon">🧱</div>
+                    <h3>268</h3>
+                    <p>Подпорных стенок защищают дорогу от камнепадов и оползней, демонстрируя мастерство инженеров.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="route">
+            <h2>Маршрут вдоль Байкала</h2>
+            <div class="content-grid reverse">
+                <div class="text-content">
+                    <p>Сегодня КБЖД — это тупиковая ветка, которая начинается у станции Слюдянка-II, огибает южную оконечность Байкала и заканчивается в порту Байкал. Дорога проходит по самой кромке берега, повторяя его изгибы. Из окон поезда открываются захватывающие виды: с одной стороны — отвесные скалы и вековая тайга, с другой — бескрайняя гладь священного озера.</p>
+                    <p>Маршрут пролегает через живописные долины, мысы и бухты. Каждая станция и каждый километр пути хранят свою историю. Этот путь позволяет увидеть Байкал с самых необычных ракурсов, недоступных с автомобильных дорог.</p>
+                </div>
+                <div class="image-content">
+                     <img src="https://images.unsplash.com/photo-1594961735102-b356d81f5a5e?q=80&w=1974&auto=format&fit=crop" alt="Живописный изгиб Кругобайкальской железной дороги">
+                </div>
+            </div>
+        </section>
+
+        <section id="tours" class="tours-section">
+            <div class="tours-content">
+                <h2>Путешествия по КБЖД</h2>
+                <p>Откройте для себя красоту Кругобайкалки, выбрав один из увлекательных форматов путешествий.</p>
+                <div class="tours-grid">
+                    <div class="tour-card">
+                        <h3>Экскурсии на поезде</h3>
+                        <p>Самый популярный способ познакомиться с КБЖД. Туристические поезда, включая ретро-состав на паровой тяге, медленно следуют по маршруту, делая остановки в самых красивых местах. Вы сможете выйти, сделать потрясающие фотографии, рассмотреть инженерные сооружения и послушать рассказ гида.</p>
+                    </div>
+                    <div class="tour-card">
+                        <h3>Пешие походы</h3>
+                        <p>Для самых активных и любознательных путешественников. Пеший поход по шпалам — это уникальная возможность полностью погрузиться в атмосферу этого места, исследовать каждый тоннель, заглянуть в самые укромные уголки и почувствовать невероятную энергетику Байкала. Маршрут можно пройти за несколько дней, ночуя на турбазах или в палатках.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Кругобайкальская железная дорога. Путешествие в историю.</p>
+    </footer>
+
+</body>
+</html>
